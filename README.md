@@ -2,9 +2,9 @@
 Configurable 3D RTS game prototype
 
 # Knowledges requires for this project
-- [Blender 2.7 Tutorial](https://www.youtube.com/watch?v=lY6KPrc4uMw&list=PLda3VoSoc_TR7X7wfblBGiRz-bvhKpGkS)
--- 0-3 for basic blender tasks
--- 34 -43 for minecraft character UV/Texture Mapping, Texture Painting, Bone Rigging and etc.
+  - [Blender 2.7 Tutorial](https://www.youtube.com/watch?v=lY6KPrc4uMw&list=PLda3VoSoc_TR7X7wfblBGiRz-bvhKpGkS)
+      - 0-3 for basic blender tasks
+      - 34 -43 for minecraft character UV/Texture Mapping, Texture Painting, Bone Rigging and etc.
 
 # Tasks
 ## Building Placement (In-Progress)
