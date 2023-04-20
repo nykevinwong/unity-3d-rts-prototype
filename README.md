@@ -14,7 +14,8 @@ Configurable 3D RTS game prototype
 ## Map Generation
 ### Terrian Generation
 ### Proceduarl Map Generation
-  - [Procedural grid world tutorial](https://www.youtube.com/watch?v=DBjd7NHMgOE)
+  - [Procedural grid world tutorial](https://www.youtube.com/watch?v=DBjd7NHMgOE&list=PLJjxg7h3d8Onat_Z_KNUBCpcuHX0YIdb4)
+      - [Source Code](https://github.com/IndividualKex/ProceduralGrid/)
   
   
 
