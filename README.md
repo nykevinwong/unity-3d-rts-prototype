@@ -19,7 +19,9 @@ Configurable 3D RTS game prototype
 ### Proceduarl Map Generation
   - [Procedural grid world tutorial](https://www.youtube.com/watch?v=DBjd7NHMgOE&list=PLJjxg7h3d8Onat_Z_KNUBCpcuHX0YIdb4)
       - [Source Code](https://github.com/IndividualKex/ProceduralGrid/)
+## Water Effect
+  - [SIMPLE CARTOON WATER in Unity](https://www.youtube.com/watch?v=Vg0L9aCRWPE)
   
-  
-
+### Water Physics
+  - [How to Set Up Dynamic Water Physics and Boat Movement in Unity](https://www.youtube.com/watch?v=eL_zHQEju8s)
   
