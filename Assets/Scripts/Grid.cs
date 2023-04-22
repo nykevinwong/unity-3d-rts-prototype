@@ -2,11 +2,16 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    [Range(-10000f, 10000f)]
+    public float xOffsetSeed = 0f;
+    [Range(-10000f, 10000f)]
+    public float yOffsetSeed = 0f;
     [Range(0, 1.0f)]
     public float waterProbabiltyPerCell = .4f;
     public float scale = .1f;
     public int size = 100;
 
+    public bool enableIslandStructure = false;
     Cell[,] grid;
 
     void Awake()
@@ -22,7 +27,7 @@ public class Grid : MonoBehaviour
         {
             for (int x = 0; x < size; x++)
             {
-                float noiseValue = Mathf.PerlinNoise(x * scale, z * scale);
+                float noiseValue = Mathf.PerlinNoise(x * scale + xOffsetSeed, z * scale + yOffsetSeed);
                 noiseMap[x, z] = noiseValue;
             }
         }
@@ -33,6 +38,9 @@ public class Grid : MonoBehaviour
             for (int x = 0; x < size; x++)
             {
                 float noiseValue = noiseMap[x, z];
+
+                if (enableIslandStructure) noiseValue -= calculateFallOffMapValue(x, z, size);
+
                 bool isWater = noiseValue < waterProbabiltyPerCell;
 
                 Cell cell = grid[x, z];
@@ -44,6 +52,14 @@ public class Grid : MonoBehaviour
             }
         }
 
+    }
+
+    private float calculateFallOffMapValue(int x, int y, int size)
+    {
+        float xv = x / (float)size * 2 - 1;
+        float yv = y / (float)size * 2 - 1;
+        float v = Mathf.Max(Mathf.Abs(xv), Mathf.Abs(yv));
+        return Mathf.Pow(v, 3f) / (Mathf.Pow(v, 3f) + Mathf.Pow(2.2f - 2.2f * v, 3f));
     }
 
     void OnDrawGizmos()
