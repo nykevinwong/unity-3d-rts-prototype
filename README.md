@@ -1,6 +1,9 @@
 # unity-3d-rts-prototype
 Configurable 3D RTS game prototype
 
+# Requirement
+  - Unity 2021.3.3f1 Personal Edition
+  
 # Knowledges requires for this project
   - [Blender 2.7 Tutorial](https://www.youtube.com/watch?v=lY6KPrc4uMw&list=PLda3VoSoc_TR7X7wfblBGiRz-bvhKpGkS)
       - 0-3 for basic blender tasks
