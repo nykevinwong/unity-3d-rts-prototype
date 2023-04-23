@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainMaterial: {fileID: 2100000, guid: 9acdd93272e536b44bea7227c5bf5309, type: 2}
+  edgeMaterial: {fileID: 2100000, guid: f6167deb43a56044ba9926e0d845f76e, type: 2}
   xOffsetSeed: -7050
   yOffsetSeed: -1121
   waterProbabiltyPerCell: 0.395
@@ -251,8 +252,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0, y: 10, z: -50}
+  m_LocalRotation: {x: 0.23770288, y: 0.064053394, z: -0.015711142, w: 0.9690963}
+  m_LocalPosition: {x: -11.76555, y: 3.6550417, z: -29.925232}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

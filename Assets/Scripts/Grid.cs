@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class Grid : MonoBehaviour
 {
     public Material terrainMaterial;
+    public Material edgeMaterial;
 
     [Range(-10000f, 10000f)]
     public float xOffsetSeed = 0f;
@@ -21,6 +22,7 @@ public class Grid : MonoBehaviour
     {
         GenerateTerrianMap();
         DrawTerrainMesh(grid);
+        DrawEdgeMesh(grid);
         DrawTexture(grid);
     }
 
@@ -114,25 +116,45 @@ public class Grid : MonoBehaviour
             for (int x = 0; x < size; x++)
             {
                 Cell cell = grid[x, z];
-                // if (!cell.isWater)
-                // {
-                Vector3 a = new Vector3(startX + x - .5f, 0, startZ + z + .5f);
-                Vector3 b = new Vector3(startX + x + .5f, 0, startZ + z + .5f);
-                Vector3 c = new Vector3(startX + x - .5f, 0, startZ + z - .5f);
-                Vector3 d = new Vector3(startX + x + .5f, 0, startZ + z - .5f);
-                Vector2 uvA = new Vector2(x / (float)size, z / (float)size);
-                Vector2 uvB = new Vector2((x + 1) / (float)size, z / (float)size);
-                Vector2 uvC = new Vector2(x / (float)size, (z + 1) / (float)size);
-                Vector2 uvD = new Vector2((x + 1) / (float)size, (z + 1) / (float)size);
-                Vector3[] v = new Vector3[] { a, b, c, b, d, c };
-                Vector2[] uv = new Vector2[] { uvA, uvB, uvC, uvB, uvD, uvC };
-                for (int k = 0; k < 6; k++)
+                if (!cell.isWater)
                 {
-                    vertices.Add(v[k]);
-                    triangles.Add(triangles.Count);
-                    uvs.Add(uv[k]);
+                    Vector3 a = new Vector3(startX + x - .5f, 0, startZ + z + .5f);
+                    Vector3 b = new Vector3(startX + x + .5f, 0, startZ + z + .5f);
+                    Vector3 c = new Vector3(startX + x - .5f, 0, startZ + z - .5f);
+                    Vector3 d = new Vector3(startX + x + .5f, 0, startZ + z - .5f);
+                    Vector2 uvA = new Vector2(x / (float)size, z / (float)size);
+                    Vector2 uvB = new Vector2((x + 1) / (float)size, z / (float)size);
+                    Vector2 uvC = new Vector2(x / (float)size, (z + 1) / (float)size);
+                    Vector2 uvD = new Vector2((x + 1) / (float)size, (z + 1) / (float)size);
+                    Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+                    Vector2[] uv = new Vector2[] { uvA, uvB, uvC, uvB, uvD, uvC };
+                    for (int k = 0; k < 6; k++)
+                    {
+                        vertices.Add(v[k]);
+                        triangles.Add(triangles.Count);
+                        uvs.Add(uv[k]);
+                    }
                 }
-                // }
+                else
+                {
+                    Vector3 a = new Vector3(startX + x - .5f, -.5f, startZ + z + .5f);
+                    Vector3 b = new Vector3(startX + x + .5f, -.5f, startZ + z + .5f);
+                    Vector3 c = new Vector3(startX + x - .5f, -.5f, startZ + z - .5f);
+                    Vector3 d = new Vector3(startX + x + .5f, -.5f, startZ + z - .5f);
+                    Vector2 uvA = new Vector2(x / (float)size, z / (float)size);
+                    Vector2 uvB = new Vector2((x + 1) / (float)size, z / (float)size);
+                    Vector2 uvC = new Vector2(x / (float)size, (z + 1) / (float)size);
+                    Vector2 uvD = new Vector2((x + 1) / (float)size, (z + 1) / (float)size);
+                    Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+                    Vector2[] uv = new Vector2[] { uvA, uvB, uvC, uvB, uvD, uvC };
+                    for (int k = 0; k < 6; k++)
+                    {
+                        vertices.Add(v[k]);
+                        triangles.Add(triangles.Count);
+                        uvs.Add(uv[k]);
+                    }
+
+                }
             }
         }
         mesh.vertices = vertices.ToArray();
@@ -146,6 +168,116 @@ public class Grid : MonoBehaviour
         MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
     }
 
+    void addQuad(List<Vector3> vertices, List<int> triangles,
+                     Vector3 a, Vector3 b, Vector3 c, Vector3 d)
+    {
+        Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+        for (int k = 0; k < 6; k++)
+        {
+            vertices.Add(v[k]);
+            triangles.Add(triangles.Count);
+        }
+    }
+
+    void DrawEdgeMesh(Cell[,] grid)
+    {
+        float startX = this.transform.position.x - size / 2;
+        float startZ = this.transform.position.z - size / 2;
+
+        Mesh mesh = new Mesh();
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                Cell cell = grid[x, y];
+                if (!cell.isWater)
+                {
+                    if (x > 0)
+                    {
+                        Cell left = grid[x - 1, y];
+                        if (left.isWater)
+                        {
+                            Vector3 a = new Vector3(startX + x - .5f, 0, startZ + y + .5f);
+                            Vector3 b = new Vector3(startX + x - .5f, 0, startZ + y - .5f);
+                            Vector3 c = new Vector3(startX + x - .5f, -1, startZ + y + .5f);
+                            Vector3 d = new Vector3(startX + x - .5f, -1, startZ + y - .5f);
+                            Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+                            for (int k = 0; k < 6; k++)
+                            {
+                                vertices.Add(v[k]);
+                                triangles.Add(triangles.Count);
+                            }
+                        }
+                    }
+                    if (x < size - 1)
+                    {
+                        Cell right = grid[x + 1, y];
+                        if (right.isWater)
+                        {
+                            Vector3 a = new Vector3(startX + x + .5f, 0, startZ + y - .5f);
+                            Vector3 b = new Vector3(startX + x + .5f, 0, startZ + y + .5f);
+                            Vector3 c = new Vector3(startX + x + .5f, -1, startZ + y - .5f);
+                            Vector3 d = new Vector3(startX + x + .5f, -1, startZ + y + .5f);
+                            Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+                            for (int k = 0; k < 6; k++)
+                            {
+                                vertices.Add(v[k]);
+                                triangles.Add(triangles.Count);
+                            }
+                        }
+                    }
+                    if (y > 0)
+                    {
+                        Cell down = grid[x, y - 1];
+                        if (down.isWater)
+                        {
+                            Vector3 a = new Vector3(startX + x - .5f, 0, startZ + y - .5f);
+                            Vector3 b = new Vector3(startX + x + .5f, 0, startZ + y - .5f);
+                            Vector3 c = new Vector3(startX + x - .5f, -1, startZ + y - .5f);
+                            Vector3 d = new Vector3(startX + x + .5f, -1, startZ + y - .5f);
+                            Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+                            for (int k = 0; k < 6; k++)
+                            {
+                                vertices.Add(v[k]);
+                                triangles.Add(triangles.Count);
+                            }
+                        }
+                    }
+                    if (y < size - 1)
+                    {
+                        Cell up = grid[x, y + 1];
+                        if (up.isWater)
+                        {
+                            Vector3 a = new Vector3(startX + x + .5f, 0, startZ + y + .5f);
+                            Vector3 b = new Vector3(startX + x - .5f, 0, startZ + y + .5f);
+                            Vector3 c = new Vector3(startX + x + .5f, -1, startZ + y + .5f);
+                            Vector3 d = new Vector3(startX + x - .5f, -1, startZ + y + .5f);
+                            Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+                            for (int k = 0; k < 6; k++)
+                            {
+                                vertices.Add(v[k]);
+                                triangles.Add(triangles.Count);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.RecalculateNormals();
+
+        GameObject edgeObj = new GameObject("Edge");
+        edgeObj.transform.SetParent(transform);
+
+        MeshFilter meshFilter = edgeObj.AddComponent<MeshFilter>();
+        meshFilter.mesh = mesh;
+
+        MeshRenderer meshRenderer = edgeObj.AddComponent<MeshRenderer>();
+        meshRenderer.material = edgeMaterial;
+    }
     void DrawTexture(Cell[,] grid)
     {
         Texture2D texture = new Texture2D(size, size);
