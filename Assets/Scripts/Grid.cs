@@ -16,14 +16,38 @@ public class Grid : MonoBehaviour
     public int size = 100;
 
     public bool enableIslandStructure = false;
-    Cell[,] grid;
+    public bool centerTerrian = false;
+    public Cell[,] grid;
 
     void Awake()
     {
+        setupBoxColliderPosition();
         GenerateTerrianMap();
         DrawTerrainMesh(grid);
         DrawEdgeMesh(grid);
         DrawTexture(grid);
+
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+                    setupBoxColliderPosition();
+                    GenerateTerrianMap();
+                    DrawTerrainMesh(grid);
+                    DrawEdgeMesh(grid);
+                    DrawTexture(grid);
+        }
+    }
+
+    void setupBoxColliderPosition()
+    {
+        BoxCollider bc = this.GetComponent<BoxCollider>();
+        if(centerTerrian==false) 
+        {
+           bc.center = new Vector3(bc.center.x  +size/2, 0 , bc.center.z +size/2);
+        }
     }
 
     void GenerateTerrianMap()
@@ -80,8 +104,8 @@ public class Grid : MonoBehaviour
 
             // set up start drawing position so that the Transform Gizmo can be displayed.
             // in the center of the map in edit mode.
-            float startX = this.transform.position.x - size / 2;
-            float startZ = this.transform.position.z - size / 2;
+            float startX = getStartX();
+            float startZ = getStartZ();
 
             float startY = this.transform.position.y;
 
@@ -102,10 +126,31 @@ public class Grid : MonoBehaviour
         }
     }
 
+    float getStartX()
+    {
+        if(centerTerrian)
+        {
+            return this.transform.position.x - size / 2;;
+        }
+
+        return this.transform.position.x;
+    }
+
+    float getStartZ()
+    {
+        if(centerTerrian)
+        {
+            return this.transform.position.z - size / 2;;
+        }
+
+        return this.transform.position.z;
+    }
+    
+
     void DrawTerrainMesh(Cell[,] grid)
     {
-        float startX = this.transform.position.x - size / 2;
-        float startZ = this.transform.position.z - size / 2;
+        float startX = getStartX();
+        float startZ = getStartZ();
 
         Mesh mesh = new Mesh();
         List<Vector3> vertices = new List<Vector3>();
@@ -118,10 +163,14 @@ public class Grid : MonoBehaviour
                 Cell cell = grid[x, z];
                 if (!cell.isWater)
                 {
-                    Vector3 a = new Vector3(startX + x - .5f, 0, startZ + z + .5f);
-                    Vector3 b = new Vector3(startX + x + .5f, 0, startZ + z + .5f);
-                    Vector3 c = new Vector3(startX + x - .5f, 0, startZ + z - .5f);
-                    Vector3 d = new Vector3(startX + x + .5f, 0, startZ + z - .5f);
+                    // Vector3 a = new Vector3(startX + x - .5f, 0, startZ + z + .5f);
+                    // Vector3 b = new Vector3(startX + x + .5f, 0, startZ + z + .5f);
+                    // Vector3 c = new Vector3(startX + x - .5f, 0, startZ + z - .5f);
+                    // Vector3 d = new Vector3(startX + x + .5f, 0, startZ + z - .5f);
+                    Vector3 a = new Vector3(startX + x , 0, startZ + z );
+                    Vector3 b = new Vector3(startX + x + 1f, 0, startZ + z );
+                    Vector3 c = new Vector3(startX + x , 0, startZ + z - 1f);
+                    Vector3 d = new Vector3(startX + x + 1f, 0, startZ + z - 1f);
                     Vector2 uvA = new Vector2(x / (float)size, z / (float)size);
                     Vector2 uvB = new Vector2((x + 1) / (float)size, z / (float)size);
                     Vector2 uvC = new Vector2(x / (float)size, (z + 1) / (float)size);
@@ -137,22 +186,22 @@ public class Grid : MonoBehaviour
                 }
                 else
                 {
-                    Vector3 a = new Vector3(startX + x - .5f, -.5f, startZ + z + .5f);
-                    Vector3 b = new Vector3(startX + x + .5f, -.5f, startZ + z + .5f);
-                    Vector3 c = new Vector3(startX + x - .5f, -.5f, startZ + z - .5f);
-                    Vector3 d = new Vector3(startX + x + .5f, -.5f, startZ + z - .5f);
-                    Vector2 uvA = new Vector2(x / (float)size, z / (float)size);
-                    Vector2 uvB = new Vector2((x + 1) / (float)size, z / (float)size);
-                    Vector2 uvC = new Vector2(x / (float)size, (z + 1) / (float)size);
-                    Vector2 uvD = new Vector2((x + 1) / (float)size, (z + 1) / (float)size);
-                    Vector3[] v = new Vector3[] { a, b, c, b, d, c };
-                    Vector2[] uv = new Vector2[] { uvA, uvB, uvC, uvB, uvD, uvC };
-                    for (int k = 0; k < 6; k++)
-                    {
-                        vertices.Add(v[k]);
-                        triangles.Add(triangles.Count);
-                        uvs.Add(uv[k]);
-                    }
+                    // Vector3 a = new Vector3(startX + x - .5f, -.5f, startZ + z + .5f);
+                    // Vector3 b = new Vector3(startX + x + .5f, -.5f, startZ + z + .5f);
+                    // Vector3 c = new Vector3(startX + x - .5f, -.5f, startZ + z - .5f);
+                    // Vector3 d = new Vector3(startX + x + .5f, -.5f, startZ + z - .5f);
+                    // Vector2 uvA = new Vector2(x / (float)size, z / (float)size);
+                    // Vector2 uvB = new Vector2((x + 1) / (float)size, z / (float)size);
+                    // Vector2 uvC = new Vector2(x / (float)size, (z + 1) / (float)size);
+                    // Vector2 uvD = new Vector2((x + 1) / (float)size, (z + 1) / (float)size);
+                    // Vector3[] v = new Vector3[] { a, b, c, b, d, c };
+                    // Vector2[] uv = new Vector2[] { uvA, uvB, uvC, uvB, uvD, uvC };
+                    // for (int k = 0; k < 6; k++)
+                    // {
+                    //     vertices.Add(v[k]);
+                    //     triangles.Add(triangles.Count);
+                    //     uvs.Add(uv[k]);
+                    // }
 
                 }
             }
@@ -181,8 +230,8 @@ public class Grid : MonoBehaviour
 
     void DrawEdgeMesh(Cell[,] grid)
     {
-        float startX = this.transform.position.x - size / 2;
-        float startZ = this.transform.position.z - size / 2;
+        float startX = getStartX();
+        float startZ = getStartZ();
 
         Mesh mesh = new Mesh();
         List<Vector3> vertices = new List<Vector3>();
@@ -199,10 +248,10 @@ public class Grid : MonoBehaviour
                         Cell left = grid[x - 1, y];
                         if (left.isWater)
                         {
-                            Vector3 a = new Vector3(startX + x - .5f, 0, startZ + y + .5f);
-                            Vector3 b = new Vector3(startX + x - .5f, 0, startZ + y - .5f);
-                            Vector3 c = new Vector3(startX + x - .5f, -1, startZ + y + .5f);
-                            Vector3 d = new Vector3(startX + x - .5f, -1, startZ + y - .5f);
+                            Vector3 a = new Vector3(startX + x , 0, startZ + y );
+                            Vector3 b = new Vector3(startX + x , 0, startZ + y - 1f);
+                            Vector3 c = new Vector3(startX + x , -1, startZ + y );
+                            Vector3 d = new Vector3(startX + x , -1, startZ + y - 1f);
                             Vector3[] v = new Vector3[] { a, b, c, b, d, c };
                             for (int k = 0; k < 6; k++)
                             {
@@ -216,10 +265,10 @@ public class Grid : MonoBehaviour
                         Cell right = grid[x + 1, y];
                         if (right.isWater)
                         {
-                            Vector3 a = new Vector3(startX + x + .5f, 0, startZ + y - .5f);
-                            Vector3 b = new Vector3(startX + x + .5f, 0, startZ + y + .5f);
-                            Vector3 c = new Vector3(startX + x + .5f, -1, startZ + y - .5f);
-                            Vector3 d = new Vector3(startX + x + .5f, -1, startZ + y + .5f);
+                            Vector3 a = new Vector3(startX + x + 1f, 0, startZ + y + 1f);
+                            Vector3 b = new Vector3(startX + x + 1f, 0, startZ + y );
+                            Vector3 c = new Vector3(startX + x + 1f, -1, startZ + y + 1f);
+                            Vector3 d = new Vector3(startX + x + 1f, -1, startZ + y );
                             Vector3[] v = new Vector3[] { a, b, c, b, d, c };
                             for (int k = 0; k < 6; k++)
                             {
@@ -233,10 +282,10 @@ public class Grid : MonoBehaviour
                         Cell down = grid[x, y - 1];
                         if (down.isWater)
                         {
-                            Vector3 a = new Vector3(startX + x - .5f, 0, startZ + y - .5f);
-                            Vector3 b = new Vector3(startX + x + .5f, 0, startZ + y - .5f);
-                            Vector3 c = new Vector3(startX + x - .5f, -1, startZ + y - .5f);
-                            Vector3 d = new Vector3(startX + x + .5f, -1, startZ + y - .5f);
+                            Vector3 a = new Vector3(startX + x , 0, startZ + y - 1f);
+                            Vector3 b = new Vector3(startX + x + 1f, 0, startZ + y - 1f);
+                            Vector3 c = new Vector3(startX + x , -1, startZ + y - 1f);
+                            Vector3 d = new Vector3(startX + x + 1f, -1, startZ + y - 1f);
                             Vector3[] v = new Vector3[] { a, b, c, b, d, c };
                             for (int k = 0; k < 6; k++)
                             {
@@ -250,10 +299,10 @@ public class Grid : MonoBehaviour
                         Cell up = grid[x, y + 1];
                         if (up.isWater)
                         {
-                            Vector3 a = new Vector3(startX + x + .5f, 0, startZ + y + .5f);
-                            Vector3 b = new Vector3(startX + x - .5f, 0, startZ + y + .5f);
-                            Vector3 c = new Vector3(startX + x + .5f, -1, startZ + y + .5f);
-                            Vector3 d = new Vector3(startX + x - .5f, -1, startZ + y + .5f);
+                            Vector3 a = new Vector3(startX + x + 1f, 0, startZ + y );
+                            Vector3 b = new Vector3(startX + x , 0, startZ + y );
+                            Vector3 c = new Vector3(startX + x + 1f, -1, startZ + y );
+                            Vector3 d = new Vector3(startX + x , -1, startZ + y );
                             Vector3[] v = new Vector3[] { a, b, c, b, d, c };
                             for (int k = 0; k < 6; k++)
                             {
