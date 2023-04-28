@@ -25,5 +25,6 @@ Configurable 3D RTS game prototype
 ### Water Physics
   - [How to Set Up Dynamic Water Physics and Boat Movement in Unity](https://www.youtube.com/watch?v=eL_zHQEju8s)
 ## Billboard Effect for Tree
-  - ［3 Ways of set up billboard tree］（https://gamedevbeginner.com/billboards-in-unity-and-how-to-make-your-own/）
+  -[3 Ways of set up billboard tree](https://gamedevbeginner.com/billboards-in-unity-and-how-to-make-your-own/}
+### [BEST Shader Graph Tutorials](https://gamedevacademy.org/best-unity-shader-graph-tutorials/)
   

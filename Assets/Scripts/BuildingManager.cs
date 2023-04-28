@@ -49,7 +49,8 @@ public class BuildingManager : MonoBehaviour
                 if(hit.transform.tag == "TerrianMap")
                 {                    
                     Debug.Log("x:"+x +", z:"+ z);
-                    if(IsOccupiedByBuilding(x,z, tileW, tileH) || !isPlacibleLandScape(x,z, tileW, tileH))                    
+                    if(IsOccupiedByBuilding(x,z, tileW, tileH) || 
+                    !isPlacibleLandScape(x,z+1, tileW, tileH))   // only z+1 works well for now.                 
                     {
                         DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.red, 3f);
                         Debug.DrawLine(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.red, 3f);
