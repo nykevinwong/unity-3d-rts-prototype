@@ -27,4 +27,7 @@ Configurable 3D RTS game prototype
 ## Billboard Effect for Tree
   -[3 Ways of set up billboard tree](https://gamedevbeginner.com/billboards-in-unity-and-how-to-make-your-own/}
 ### [BEST Shader Graph Tutorials](https://gamedevacademy.org/best-unity-shader-graph-tutorials/)
-  
+## [Continious Integration]
+ - [Build unity 3d android build with Circle CI](https://medium.com/xrpractices/continuous-integration-for-unity-using-circleci-8d555f9fa35d)
+## Performance Tuning
+### [Increase Game Frame Rate](https://canopy.procedural-worlds.com/library/deep-dives/performance/how-to-increase-your-games-framerate-in-unity-3d-r28/)

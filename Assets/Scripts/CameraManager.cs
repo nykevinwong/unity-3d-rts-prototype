@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    [Header("Zoom with Mouse Wheel")]
     public float zoomSpeed = 500f;
+
+    [Header("Move Camera with Mouse Panning")]
+    public float cameraPanSpeed = 0.05f;
+    private Vector3 lastPanningMousePos;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +30,19 @@ public class CameraManager : MonoBehaviour
 
             // Zoom in and out based on mouse wheel
             Camera.main.orthographicSize  = Mathf.Clamp(Camera.main.orthographicSize + Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime, 0.5f, 40f);
+
+            // mouse panning with middle/wheel mouse button            
+            if (Input.GetMouseButtonDown(2))
+            {
+                lastPanningMousePos = Input.mousePosition;
+            }
+ 
+            if (Input.GetMouseButton(2))
+            {
+                Vector3 delta = Input.mousePosition - lastPanningMousePos;
+                Camera.main.transform.Translate(delta.x * cameraPanSpeed, delta.y * cameraPanSpeed, 0);
+                lastPanningMousePos = Input.mousePosition;
+            }
         }
 
     }
