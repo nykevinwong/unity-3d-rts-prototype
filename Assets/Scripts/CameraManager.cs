@@ -40,7 +40,7 @@ public class CameraManager : MonoBehaviour
             if (Input.GetMouseButton(2))
             {
                 Vector3 delta = Input.mousePosition - lastPanningMousePos;
-                Camera.main.transform.Translate(delta.x * cameraPanSpeed, delta.y * cameraPanSpeed, 0);
+                Camera.main.transform.Translate(delta.x * cameraPanSpeed * Time.deltaTime, delta.y * cameraPanSpeed * Time.deltaTime, 0);
                 lastPanningMousePos = Input.mousePosition;
             }
         }
