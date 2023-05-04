@@ -193,9 +193,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainMaterial: {fileID: 2100000, guid: 9acdd93272e536b44bea7227c5bf5309, type: 2}
   edgeMaterial: {fileID: 2100000, guid: f6167deb43a56044ba9926e0d845f76e, type: 2}
-  xOffsetSeed: 4147
-  yOffsetSeed: 92
-  waterProbabiltyPerCell: 0.293
+  xOffsetSeed: 0
+  yOffsetSeed: 0
+  waterProbabiltyPerCell: 0.3
   scale: 0.1
   size: 100
   enableIslandStructure: 0
@@ -210,7 +210,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -228,7 +228,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 100, y: 0, z: 100}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1001 &310325388
+--- !u!1001 &327317362
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -241,7 +241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 403460, guid: 20a1dfb2cbd1e894396be05ea8346d43, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 403460, guid: 20a1dfb2cbd1e894396be05ea8346d43, type: 3}
       propertyPath: m_LocalScale.x
@@ -294,6 +294,10 @@ PrefabInstance:
     - target: {fileID: 403460, guid: 20a1dfb2cbd1e894396be05ea8346d43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 403460, guid: 20a1dfb2cbd1e894396be05ea8346d43, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20a1dfb2cbd1e894396be05ea8346d43, type: 3}
@@ -621,7 +625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1017115973}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25023976, y: 0.17921066, z: 0.84856975}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -719,7 +723,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1517862416
 GameObject:
@@ -925,9 +929,9 @@ Canvas:
   m_GameObject: {fileID: 1776033428}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 330585545}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 0
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
