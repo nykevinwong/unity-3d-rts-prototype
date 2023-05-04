@@ -1,6 +1,14 @@
 # unity-3d-rts-prototype
 Configurable 3D RTS game prototype
 
+# Already Implemented Features
+## Building Placdement [PC]
+![](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/pc-building-placement.gif)
+## Camera Panning [PC]
+![](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/pc-camera-pann-with-mmb.gif)
+## Resource UI & Resource Generator [PC/Phone/etc]
+![](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/resource-ui-and-rs-generator.gif)
+
 # Requirement
   - Unity 2021.3.3f1 Personal Edition
   
