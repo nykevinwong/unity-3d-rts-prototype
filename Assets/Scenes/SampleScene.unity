@@ -198,8 +198,14 @@ MonoBehaviour:
   waterProbabiltyPerCell: 0.3
   scale: 0.1
   size: 100
+  groundColor: {r: 0.3367793, g: 0.6320754, b: 0.15145956, a: 1}
   enableIslandStructure: 0
   centerTerrian: 0
+  treeNoiseScale: 0.05
+  treeDensity: 0.5
+  treePrefabs:
+  - {fileID: 4032642331417584291, guid: 4bac5cb9c2afe7b4c9f16b8bb363da65, type: 3}
+  - {fileID: 6846767348704259191, guid: cb0fe672d3acce242839948b39b4bd30, type: 3}
 --- !u!4 &273921337
 Transform:
   m_ObjectHideFlags: 0

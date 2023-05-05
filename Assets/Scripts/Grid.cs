@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 public class Grid : MonoBehaviour
 {
     public Material terrainMaterial;
@@ -14,10 +15,18 @@ public class Grid : MonoBehaviour
     public float waterProbabiltyPerCell = .4f;
     public float scale = .1f;
     public int size = 100;
+    public Color groundColor;
+
 
     public bool enableIslandStructure = false;
     public bool centerTerrian = false;
+    public float treeNoiseScale = .05f;
+    public float treeDensity = .5f;
+
     public Cell[,] grid;
+
+
+    public GameObject[] treePrefabs;
 
     void Awake()
     {
@@ -26,7 +35,7 @@ public class Grid : MonoBehaviour
         DrawTerrainMesh(grid);
         DrawEdgeMesh(grid);
         DrawTexture(grid);
-
+        GenerateTrees(grid);
     }
 
     void Update()
@@ -327,6 +336,7 @@ public class Grid : MonoBehaviour
         MeshRenderer meshRenderer = edgeObj.AddComponent<MeshRenderer>();
         meshRenderer.material = edgeMaterial;
     }
+
     void DrawTexture(Cell[,] grid)
     {
         Texture2D texture = new Texture2D(size, size);
@@ -337,9 +347,9 @@ public class Grid : MonoBehaviour
             {
                 Cell cell = grid[x, y];
                 if (cell.isWater)
-                    colorMap[y * size + x] = Color.blue;
+                    colorMap[y * size + x] = Color.white;
                 else
-                    colorMap[y * size + x] = Color.green;
+                    colorMap[y * size + x] = groundColor;
             }
         }
         texture.filterMode = FilterMode.Point;
@@ -350,4 +360,36 @@ public class Grid : MonoBehaviour
         meshRenderer.material = terrainMaterial;
         meshRenderer.material.mainTexture = texture;
     }
+
+    void GenerateTrees(Cell[,] grid) {
+        float[,] noiseMap = new float[size, size];
+        (float xOffset, float yOffset) = (Random.Range(-10000f, 10000f), Random.Range(-10000f, 10000f));
+        for(int y = 0; y < size; y++) {
+            for(int x = 0; x < size; x++) {
+                float noiseValue = Mathf.PerlinNoise(x * treeNoiseScale + xOffset, y * treeNoiseScale + yOffset);
+                noiseMap[x, y] = noiseValue;
+            }
+        }
+
+
+        float startX = getStartX();
+        float startZ = getStartZ();
+
+        for(int y = 0; y < size; y++) {
+            for(int x = 0; x < size; x++) {
+                Cell cell = grid[x, y];
+                if(!cell.isWater) {
+                    float v = Random.Range(0f, treeDensity);
+                    if(noiseMap[x, y] < v) {
+                        GameObject prefab = treePrefabs[Random.Range(0, treePrefabs.Length)];
+                        GameObject tree = Instantiate(prefab, transform);
+                        tree.transform.position = new Vector3(startX+x+.5f, 0, startZ+y+.5f);
+                        tree.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360f), 0);
+                        tree.transform.localScale = Vector3.one * Random.Range(.2f, .4f);
+                    }
+                }
+            }
+        }
+    }
+
 }
