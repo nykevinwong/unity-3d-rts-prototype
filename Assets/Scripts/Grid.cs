@@ -30,6 +30,7 @@ public class Grid : MonoBehaviour
 
     void Awake()
     {
+
         setupBoxColliderPosition();
         GenerateTerrianMap();
         DrawTerrainMesh(grid);
@@ -383,9 +384,11 @@ public class Grid : MonoBehaviour
                     if(noiseMap[x, y] < v) {
                         GameObject prefab = treePrefabs[Random.Range(0, treePrefabs.Length)];
                         GameObject tree = Instantiate(prefab, transform);
-                        tree.transform.position = new Vector3(startX+x+.5f, 0, startZ+y+.5f);
+                        // position it at the center of each cell, which is half size of one cell.
+                        tree.transform.position = new Vector3(startX+x+.5f, 0, startZ+y-.5f);
                         tree.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360f), 0);
                         tree.transform.localScale = Vector3.one * Random.Range(.2f, .4f);
+                        cell.hasTree= true;
                     }
                 }
             }

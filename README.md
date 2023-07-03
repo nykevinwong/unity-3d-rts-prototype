@@ -9,6 +9,10 @@ Configurable 3D RTS game prototype
 ## Resource UI & Resource Generator [PC/Phone/etc]
 ![](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/resource-ui-and-rs-generator.gif)
 
+#Game Promption Tutorials
+- Twitter promption for game Dev (https://www.gamedeveloper.com/business/12-tips-to-improve-your-twitter-for-gamedev#close-modal
+
+
 # Requirement
   - Unity 2021.3.3f1 Personal Edition
   
@@ -39,3 +43,12 @@ Configurable 3D RTS game prototype
  - [Build unity 3d android build with Circle CI](https://medium.com/xrpractices/continuous-integration-for-unity-using-circleci-8d555f9fa35d)
 ## Performance Tuning
 ### [Increase Game Frame Rate](https://canopy.procedural-worlds.com/library/deep-dives/performance/how-to-increase-your-games-framerate-in-unity-3d-r28/)
+
+# 3d Modeling Specific for game
+## LandScape
+### [How to Make Stylized Rocks! 8 mins](https://www.youtube.com/watch?v=SWF_K7I7MFI)
+  - Make an UV Sphere. Scale Z axis to make it an Oval.
+    - ToSphere method: "Mesh > Transform > To Sphere" or "Shift-Alt-S"
+  - Bisect cut this UV oval until it has less faces and becomes a rock.
+    - Bisect Tool short cut: "Shift + Spacebar 2 times"
+

@@ -43,6 +43,7 @@ public class CameraManager : MonoBehaviour
                 Camera.main.transform.Translate(delta.x * cameraPanSpeed * Time.deltaTime, delta.y * cameraPanSpeed * Time.deltaTime, 0);
                 lastPanningMousePos = Input.mousePosition;
             }
+            
         }
 
     }

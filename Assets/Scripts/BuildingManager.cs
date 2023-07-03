@@ -9,7 +9,7 @@ public class BuildingManager : MonoBehaviour
     public Transform buildingPrefab;
     public Transform cursor;
     public int size = 100;
-    bool[,] occupied;
+    public bool[,] occupied;
     bool keyDownT = false;
 
     private GameObject grid;
@@ -86,6 +86,12 @@ public class BuildingManager : MonoBehaviour
         return false;
     }
 
+    public void Occupy(int x, int z)
+    {
+        if(x < 0 || z < 0 || x >= size || z >= size) return;
+        occupied[x, z] = true;
+    }
+
     public void Occupy(int x, int z, int tileW, int tileH)
     {
         for(int i=0;i < tileH; i++)
@@ -95,6 +101,11 @@ public class BuildingManager : MonoBehaviour
             }
     }
 
+    public void Empty(int x, int z)
+    {
+        occupied[x, z] = false;
+    }
+
     public bool isPlacibleLandScape(int x, int z, int tileW, int tileH)
     {
         for(int i=0;i < tileH; i++)
@@ -102,6 +113,7 @@ public class BuildingManager : MonoBehaviour
             {
                 Cell c = gridScript.grid[x + j, z + i];
                 if(c.isWater) return false;
+                if(c.hasTree) return false;
             }
 
         return true;
