@@ -33,15 +33,18 @@ public class ModelCustomImportSteps : AssetPostprocessor
     {  
             if (!Directory.Exists("Assets/Prefabs"))
             { AssetDatabase.CreateFolder("Assets", "Prefabs"); }
-
+            
             GameObject modelGameObject = AssetDatabase.LoadMainAssetAtPath(assetPath) as GameObject; ;
             GameObject instanceRoot = (GameObject)PrefabUtility.InstantiatePrefab(modelGameObject);
             Debug.Log("modelGameObject:" + modelGameObject.name);
             Debug.Log("instanceRoot:" + instanceRoot.name);
             
-            String localPath = "Assets/Prefabs/fbx/" + Path.GetFileName(assetPath).Replace(".FBX",".prefab");
+            String localPath = "Assets/Prefabs/fbx/" + Path.GetFileName(assetPath).Replace(".FBX",".prefab").Replace(".fbx",".prefab");
             localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
             
+            BuildingTypeHolder buildingTypeHolder = instanceRoot.AddComponent<BuildingTypeHolder>();
+            ResourceGenerator resourceGenerator = instanceRoot.AddComponent<ResourceGenerator>();
+        
         
 //            bool prefabSuccess;
             PrefabUtility.SaveAsPrefabAssetAndConnect(instanceRoot, localPath, InteractionMode.UserAction, out bool prefabSuccess);
