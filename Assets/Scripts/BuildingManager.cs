@@ -5,8 +5,10 @@ using UnityEngine;
 // https://x-team.com/blog/unity-3d-best-practices-physics/
 public class BuildingManager : MonoBehaviour
 {
+    public static BuildingManager Instance { get; private set; }
+
     Camera mainCamera;
-    public Transform buildingPrefab;
+    public BuildingTypeSO buildingType;
     public Transform cursor;
     public int size = 100;
     public bool[,] occupied;
@@ -14,6 +16,11 @@ public class BuildingManager : MonoBehaviour
 
     private GameObject grid;
     private Grid gridScript;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -27,8 +34,9 @@ public class BuildingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            int tileW = 2, tileH = 2;
-            float halfTileW = tileW/2, halfTileH = tileH/2;
+            Transform buildingPrefab = buildingType.prefab;
+            int tileW = buildingType.width, tileH = buildingType.length;
+            float halfTileW = tileW/2f, halfTileH = tileH/2f;
             RaycastHit hit;
             bool isRayHit = Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit);
 
@@ -63,6 +71,8 @@ public class BuildingManager : MonoBehaviour
                         // (1) is the area all flat?
                         // (2) is there any obstacle such as water, stone, mountain or tree?
 
+                            DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.magenta, 3f);
+                        
                             Vector3 pos = new Vector3(x+halfTileW, 0, z+halfTileH);
                             Instantiate(buildingPrefab, pos, Quaternion.identity * buildingPrefab.localRotation);
                             Occupy(x,z, tileW, tileH);
@@ -73,6 +83,11 @@ public class BuildingManager : MonoBehaviour
                 }
             }
 
+    }
+
+    public void SetActiveBuildingType(BuildingTypeSO buildingType) 
+    {
+        this.buildingType = buildingType;
     }
 
     public bool IsOccupiedByBuilding(int x, int z, int tileW, int tileH)

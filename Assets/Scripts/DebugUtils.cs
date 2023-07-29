@@ -18,9 +18,10 @@ public static class DebugUtils
         UnityEngine.Debug.DrawLine(min, new Vector3(max.x, 0, min.z), color, duration);
     }
 
+
     public static void DrawRect(Rect rect, Color color)
     {
-        DrawRect(rect.min, rect.max, color);
+        DrawRect(new Vector3(rect.min.x, 0, rect.min.y), new Vector3(rect.max.x, 0, rect.max.y), color);
     }
 
     public static void DrawRect(Rect rect, Color color, float duration)

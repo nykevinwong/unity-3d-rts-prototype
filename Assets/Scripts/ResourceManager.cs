@@ -47,6 +47,8 @@ public class ResourceManager : MonoBehaviour
 
     public void AddResourceAmount(ResourceTypeSO type, int value)
     {
+        if(type==null) return; // no resource will generate for this building.
+        
         resources[type] += value;
         Debug.Log(type.nameString + " = " + resources[type]);
 

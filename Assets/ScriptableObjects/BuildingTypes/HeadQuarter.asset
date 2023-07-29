@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f6cf8d891f347d42bd8b042211cf335, type: 3}
-  m_Name: GoldHarvester
+  m_Name: HeadQuarter
   m_EditorClassIdentifier: 
-  nameString: Gold Harvester
-  prefab: {fileID: 5154783433032893333, guid: 30e8d36fbc88f99469b55d10d57ed942, type: 3}
-  width: 1
-  length: 1
+  nameString: Head Quarter
+  prefab: {fileID: 2460070482126357770, guid: 58ff39cad19304440bfe7b6f94c747bf, type: 3}
+  width: 2
+  length: 2
   resourceGeneratorData:
-    timerMax: 2
-    resourceType: {fileID: 11400000, guid: fe67a65e81b2fb5438dff8684a399b0c, type: 2}
+    timerMax: 0.5
+    resourceType: {fileID: 0}
