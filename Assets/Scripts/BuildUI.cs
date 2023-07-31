@@ -3,12 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+
 public class BuildUI : MonoBehaviour
 {
+    public static BuildUI Instance { get; private set;}
+    BuildingTypeListSO buildingTypeListSO;    
     public float offsetY = 0;
     public float offsetX = 105;
     // Start is called before the first frame update
-        BuildingTypeListSO buildingTypeListSO;
+
+    public class BuildTypeSelectedEventArgs : EventArgs
+    {
+        public BuildingTypeSO BuildingType { get; private set; }
+
+        public BuildTypeSelectedEventArgs(BuildingTypeSO buildingType)
+        {
+            this.BuildingType = buildingType;
+        }
+    };
+
+    public event EventHandler<BuildTypeSelectedEventArgs> buildTypeSelectedEventHanlder;
+
     void Awake()
     {
         buildingTypeListSO = Resources.Load<BuildingTypeListSO>(typeof(BuildingTypeListSO).Name);
@@ -32,21 +48,21 @@ public class BuildUI : MonoBehaviour
 
 
             buildTypeTransform.GetComponent<Button>().onClick.AddListener( () => {                
-                BuildingManager.Instance.SetActiveBuildingType(buildingType);
+                buildTypeSelectedEventHanlder(this, new BuildTypeSelectedEventArgs(buildingType));
             });
-
-
 
             index++;
 
             Debug.Log(buildingType.nameString + " added to resourceUI");
 
         }
+
+        Instance = this;
     }
 
     void Start()
     {
-        BuildingManager.Instance.SetActiveBuildingType(buildingTypeListSO.list[0]);
+        buildTypeSelectedEventHanlder(this, new BuildTypeSelectedEventArgs(buildingTypeListSO.list[0]));
     }
 
 

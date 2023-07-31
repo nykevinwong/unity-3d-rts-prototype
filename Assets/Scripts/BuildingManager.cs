@@ -51,11 +51,12 @@ public class BuildingManager : MonoBehaviour
     {
         occupied = new bool[size,size];
         Instance = this;
+        BuildingManager.Instance.placibleSpotSelectedEventHandler += OnPlacibleSpotSelected;
+        BuildUI.Instance.buildTypeSelectedEventHanlder += BuildUI_OnBuildTypeSelected;
     }
 
     void Start()
     {
-        BuildingManager.Instance.placibleSpotSelectedEventHandler += OnPlacibleSpotSelected;
 
         mainCamera = Camera.main;        
 
@@ -63,9 +64,19 @@ public class BuildingManager : MonoBehaviour
         gridScript = grid.GetComponent<Grid>();
     }
 
+    void BuildUI_OnBuildTypeSelected(object sender, BuildUI.BuildTypeSelectedEventArgs args)
+    {
+        if(this.buildingType!=null) { // ignore if it tries to initialize building manager
+            this.enabled = true;
+        }
+        this.buildingType = args.BuildingType;        
+    }
+
     // Update is called once per frame
     void Update()
     {
+            if(buildingType== null) return;
+
             Transform buildingPrefab = buildingType.prefab;
             int tileW = buildingType.width, tileH = buildingType.length;
             float halfTileW = tileW/2f, halfTileH = tileH/2f;
@@ -127,12 +138,9 @@ public class BuildingManager : MonoBehaviour
         
         Occupy((int)sourcePos.x,(int)sourcePos.z, tileW, tileL);
 
+        buildingType = null;
     }
 
-    public void SetActiveBuildingType(BuildingTypeSO buildingType) 
-    {
-        this.buildingType = buildingType;
-    }
 
     public bool IsOccupiedByBuilding(int x, int z, int tileW, int tileH)
     {
