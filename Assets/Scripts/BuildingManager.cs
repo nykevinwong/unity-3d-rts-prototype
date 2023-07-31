@@ -1,12 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 // https://x-team.com/blog/unity-3d-best-practices-physics/
 public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance { get; private set; }
 
+    public class DetectPlacibleSpotEventArgs : EventArgs
+    {
+        public bool IsPlacible { get; private set; }
+        public Vector3 Pos { get; private set; }
+        public BuildingTypeSO BuildingType;
+
+        public DetectPlacibleSpotEventArgs(bool isPlacible, Vector3 pos, BuildingTypeSO buildingType)
+        {
+            this.IsPlacible = isPlacible;
+            this.Pos = pos;
+            this.BuildingType = buildingType;
+        }
+    };
+
+    public class PlacibleSpotSelectedEventArgs : EventArgs
+    {
+        public Vector3 Pos { get; private set; }
+        public BuildingTypeSO BuildingType;
+
+        public PlacibleSpotSelectedEventArgs(Vector3 pos, BuildingTypeSO buildingType)
+        {
+            this.Pos = pos;
+            this.BuildingType = buildingType;
+        }
+    };
+
+    public event EventHandler<DetectPlacibleSpotEventArgs> detectPlacibleSpotEventHandler;
+    public event EventHandler<PlacibleSpotSelectedEventArgs> placibleSpotSelectedEventHandler;
+    
     Camera mainCamera;
     public BuildingTypeSO buildingType;
     public Transform cursor;
@@ -19,13 +49,15 @@ public class BuildingManager : MonoBehaviour
 
     void Awake()
     {
+        occupied = new bool[size,size];
         Instance = this;
     }
 
     void Start()
     {
+        BuildingManager.Instance.placibleSpotSelectedEventHandler += OnPlacibleSpotSelected;
+
         mainCamera = Camera.main;        
-        occupied = new bool[size,size];
 
         grid = GameObject.Find("Grid");
         gridScript = grid.GetComponent<Grid>();
@@ -43,45 +75,57 @@ public class BuildingManager : MonoBehaviour
             int x = (int)(hit.point.x);
             int z = (int)(hit.point.z);
 
+            bool isLeftMouseButtonDown = Input.GetMouseButtonDown(0);
+            
             if(isRayHit)
             {
                 if(hit.transform.tag == "TerrianMap")
                 {        
-                    DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.white);
-                }
-            }
 
-            //TODO: currently, press T Key won't always place the building.
-            if(Input.GetKeyDown(KeyCode.T) && isRayHit)
-            {
-                if(hit.transform.tag == "TerrianMap")
-                {                    
-                    Debug.Log("x:"+x +", z:"+ z);
                     if(IsOccupiedByBuilding(x,z, tileW, tileH) || 
                     !isPlacibleLandScape(x,z+1, tileW, tileH))   // only z+1 works well for now.                 
-                    {
-                        DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.red, 3f);
-                        Debug.DrawLine(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.red, 3f);
-                        Debug.DrawLine(new Vector3(x+tileW,0,z), new Vector3(x,0,z+tileH), Color.red, 3f);
+                    {                        
+                        detectPlacibleSpotEventHandler?.Invoke(this,new DetectPlacibleSpotEventArgs(false, new Vector3(x,0,z), buildingType));
+
+                        DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.red);
+                        Debug.DrawLine(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.red);
+                        Debug.DrawLine(new Vector3(x+tileW,0,z), new Vector3(x,0,z+tileH), Color.red);
                     }
                     else
                     {
 
-                        // to do check whether the area is placible?
-                        // (1) is the area all flat?
-                        // (2) is there any obstacle such as water, stone, mountain or tree?
-
-                            DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.magenta, 3f);
+                       if(isLeftMouseButtonDown)
+                       {
+                        Debug.Log("Building Manager onPlacibleSpotSelected event");
+                        placibleSpotSelectedEventHandler?.Invoke(this,new PlacibleSpotSelectedEventArgs(new Vector3(x,0,z), buildingType));                       
+                       }
+                       else
+                       {
                         
-                            Vector3 pos = new Vector3(x+halfTileW, 0, z+halfTileH);
-                            Instantiate(buildingPrefab, pos, Quaternion.identity * buildingPrefab.localRotation);
-                            Occupy(x,z, tileW, tileH);
+                        detectPlacibleSpotEventHandler?.Invoke(this,new DetectPlacibleSpotEventArgs(true, new Vector3(x,0,z), buildingType));
+                        DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.white);
+
+                       }
                     }
 
-
-                
                 }
             }
+
+    }
+
+    public void OnPlacibleSpotSelected(object sender, PlacibleSpotSelectedEventArgs args)
+    {
+        Transform buildingPrefab = buildingType.prefab;
+        
+        int tileW = buildingType.width, tileL = buildingType.length;
+        float halfTileW = tileW/2f, halfTileL= tileL/2f;
+        
+        Vector3 sourcePos = args.Pos;        
+        Vector3 targetPos = new Vector3(sourcePos.x+halfTileW, 0, sourcePos.z+halfTileL);
+
+        Instantiate(buildingPrefab, targetPos, Quaternion.identity * buildingPrefab.localRotation);
+        
+        Occupy((int)sourcePos.x,(int)sourcePos.z, tileW, tileL);
 
     }
 
