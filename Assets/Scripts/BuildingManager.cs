@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
+
 
 // https://x-team.com/blog/unity-3d-best-practices-physics/
 public class BuildingManager : MonoBehaviour
@@ -66,9 +68,7 @@ public class BuildingManager : MonoBehaviour
 
     void BuildUI_OnBuildTypeSelected(object sender, BuildUI.BuildTypeSelectedEventArgs args)
     {
-        if(this.buildingType!=null) { // ignore if it tries to initialize building manager
-            this.enabled = true;
-        }
+
         this.buildingType = args.BuildingType;        
     }
 
@@ -105,17 +105,20 @@ public class BuildingManager : MonoBehaviour
                     else
                     {
 
-                       if(isLeftMouseButtonDown)
+                       if(!EventSystem.current.IsPointerOverGameObject())
                        {
-                        Debug.Log("Building Manager onPlacibleSpotSelected event");
-                        placibleSpotSelectedEventHandler?.Invoke(this,new PlacibleSpotSelectedEventArgs(new Vector3(x,0,z), buildingType));                       
-                       }
-                       else
-                       {
-                        
-                        detectPlacibleSpotEventHandler?.Invoke(this,new DetectPlacibleSpotEventArgs(true, new Vector3(x,0,z), buildingType));
-                        DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.white);
+                        if(isLeftMouseButtonDown)
+                        {
+                            Debug.Log("Building Manager onPlacibleSpotSelected event");
+                            placibleSpotSelectedEventHandler?.Invoke(this,new PlacibleSpotSelectedEventArgs(new Vector3(x,0,z), buildingType));                       
+                        }
+                        else
+                        {
+                            
+                            detectPlacibleSpotEventHandler?.Invoke(this,new DetectPlacibleSpotEventArgs(true, new Vector3(x,0,z), buildingType));
+                            DebugUtils.DrawRect(new Vector3(x,0,z), new Vector3(x+tileW,0,z+tileH), Color.white);
 
+                        }
                        }
                     }
 

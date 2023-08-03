@@ -16,7 +16,6 @@ public class BuildUI : MonoBehaviour
     public class BuildTypeSelectedEventArgs : EventArgs
     {
         public BuildingTypeSO BuildingType { get; private set; }
-
         public BuildTypeSelectedEventArgs(BuildingTypeSO buildingType)
         {
             this.BuildingType = buildingType;
@@ -62,7 +61,7 @@ public class BuildUI : MonoBehaviour
 
     void Start()
     {
-        buildTypeSelectedEventHanlder(this, new BuildTypeSelectedEventArgs(buildingTypeListSO.list[0]));
+       // buildTypeSelectedEventHanlder(this, new BuildTypeSelectedEventArgs(buildingTypeListSO.list[0]));
     }
 
 
