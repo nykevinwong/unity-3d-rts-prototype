@@ -59,9 +59,7 @@ public class BuildingManager : MonoBehaviour
 
     void Start()
     {
-
         mainCamera = Camera.main;        
-
         grid = GameObject.Find("Grid");
         gridScript = grid.GetComponent<Grid>();
     }
