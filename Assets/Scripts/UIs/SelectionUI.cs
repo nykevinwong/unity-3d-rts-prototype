@@ -48,7 +48,7 @@ public class SelectionUI : MonoBehaviour
             isDragSelect = (curMoveDelta > moveDetla);
         }
         
-        if(Input.GetMouseButtonUp(0))// while left button is held
+        if(Input.GetMouseButtonUp(0))// while left button is up
         {
             if(isDragSelect==false)
             {
@@ -61,10 +61,24 @@ public class SelectionUI : MonoBehaviour
                 {
                     if(hit.transform.tag == "TerrianMap")
                     {
-                        SelectionUI.Instance.DeselectAll();
+                        GameObject target = GameObject.Find("TargetPosition");
+                        target.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+                        target.SetActive(true);
+                        foreach(KeyValuePair<int, GameObject> pair in selectedUnitList)
+                        {
+                            GameObject go = pair.Value;
+                            GameObject parent = go.transform.parent.gameObject; 
+                            if(parent.GetComponent<MoveVelocity>()==null) parent.AddComponent<MoveVelocity>();
+                            if(parent.GetComponent<TargetMovement>()==null) parent.AddComponent<TargetMovement>();
+                            parent.GetComponent<TargetMovement>().SetTargetGameObject(target);
+                        }
+
+                      //  SelectionUI.Instance.DeselectAll();
                         // move units?
+                        return;
                     }
-                    else if(isLeftShiftDown) // inclusive select/multi-select another unit 
+
+                    if(isLeftShiftDown) // inclusive select/multi-select another unit 
                     {
                         SelectionUI.Instance.Select(hit.transform.gameObject);
                     }
@@ -104,6 +118,7 @@ public class SelectionUI : MonoBehaviour
         {
             if(selectedIndicator==null) 
             {
+                //selectedIndicator = go.transform.parent.gameObject.AddComponent<SelectedIndicator>();
                 selectedIndicator = go.AddComponent<SelectedIndicator>();
             }
 

@@ -20,6 +20,11 @@ public class SelectedIndicator : MonoBehaviour
     {
         renderer.material.color = Color.white;
     }
+
+    public bool IsSelected 
+    {
+        get { return renderer.material.color == Color.red; } 
+    }
     // Update is called once per frame
     // public virtual void OnDestroy()
     // {
