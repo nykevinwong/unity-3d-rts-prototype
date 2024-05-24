@@ -8,6 +8,10 @@ Configurable 3D RTS game prototype
 ![](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/pc-camera-pann-with-mmb.gif)
 ## Resource UI & Resource Generator [PC/Phone/etc]
 ![](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/resource-ui-and-rs-generator.gif)
+## building ghost placement
+![.](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/pc-building-ghost-for-building-placement.gif)
+## build UI
+![.](https://github.com/nykevinwong/unity-3d-rts-prototype/blob/main/feature-snapshot/pc-basic-build-ui-and-enahcned-placement.gif)
 
 #Game Promption Tutorials
 - Twitter promption for game Dev (https://www.gamedeveloper.com/business/12-tips-to-improve-your-twitter-for-gamedev#close-modal
